@@ -12,7 +12,7 @@ public class Hexagon {
 	// 0 = grass
 	// 1 = water
 	// 2 = sand
-	int type = 1;
+    int type = 0;
 	
 	int hex_width = 10;
 	int hex_height = hex_width + (hex_width / 2);
@@ -39,6 +39,14 @@ public class Hexagon {
 
 		g.setColor(hexColor);
 		g.fillPolygon(hex_XPos, hex_YPos, hex_XPos.length);
+		
+		if(isActive){
+			g.setColor(Color.MAGENTA);
+		}else{
+			g.setColor(Color.BLACK);
+		}// End of if hex is active
+		
+		g.drawPolygon(hex_XPos, hex_YPos, hex_XPos.length);
 	}// End of drawHexagon
 	
 	public void genHexagon(int xPos, int yPos){

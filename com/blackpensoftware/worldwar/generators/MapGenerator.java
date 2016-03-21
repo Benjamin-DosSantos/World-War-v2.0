@@ -17,27 +17,19 @@ public class MapGenerator {
 	public void genMap(){
 		for(int c = 0; c < map.length; c++){
 			for(int r = 0; r < map[c].length; r++){
-				Hexagon newHex = new Hexagon();
-				newHex.setType(selectType());
-				map[c][r] = newHex;
+				int type = selectType();
+				map[c][r] = new Hexagon();
+				map[c][r].setType(type);
 			}// End of for the number of items
 		}// End of for the number of arrays
 	}// End of genMap method
+
 	
 	public void drawMap(Graphics g, int xPos, int yPos){
 		boolean shift = false;
-		for(Hexagon[] arrays: map){
-			for(Hexagon hex: arrays){
-				drawHexRow(g, xPos, yPos);
-			}// End of for hexagons
+		for(int rows = 0; rows < mapHeight; rows++){
+			drawHexRow(g, xPos, yPos);
 			yPos += hex.getHexHeight();
-			if(shift){
-				xPos += hex.getHexWidth() / 2;
-				shift = false;
-			}else{
-				xPos -= hex.getHexWidth() / 2;
-				shift = true;
-			}
 		}// End of for arrays
 	}// End of drawMap method
 	
@@ -45,7 +37,7 @@ public class MapGenerator {
 		boolean drop = false;
 		for(int i = 0; i < mapWidth; i++){
 			hex.drawHexagon(g, xPos, yPos);
-			xPos += hex.getHexWidth();
+			xPos += hex.getHexWidth() + (hex.getHexWidth() / 2);
 			if(drop){
 				yPos += hex.getHexHeight() / 2;
 				drop = false;

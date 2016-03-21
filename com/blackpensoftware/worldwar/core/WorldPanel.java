@@ -13,6 +13,6 @@ public class WorldPanel extends JPanel{
 	
 	@Override
 	public void paint(Graphics g){
-		mapGen.drawMap(g, 0, 0);
+		mapGen.drawMap(g, -(hex.getHexWidth() / 2), -(hex.getHexHeight() / 2));
 	}// End of paint method 
 }// End of class
