@@ -24,7 +24,6 @@ public class MapGenerator {
 		}// End of for the number of arrays
 	}// End of genMap method
 
-	
 	public void drawMap(Graphics g, int xPos, int yPos){
 		boolean shift = false;
 		for(int rows = 0; rows < mapHeight; rows++){
