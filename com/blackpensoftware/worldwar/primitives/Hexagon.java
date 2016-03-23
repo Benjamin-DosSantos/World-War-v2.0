@@ -2,6 +2,7 @@ package com.blackpensoftware.worldwar.primitives;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.util.Random;
 
 import com.blackpensoftware.worldwar.handlers.ColorHandler;
 
@@ -9,10 +10,13 @@ public class Hexagon {
 	ColorHandler colors = new ColorHandler();
 	
 	boolean isActive = false;
+	
 	// 0 = grass
 	// 1 = water
 	// 2 = sand
-    int type = 0;
+	int type = 0;
+	
+	Color hexColor;
 	
 	int hex_width = 10;
 	int hex_height = hex_width + (hex_width / 2);
@@ -23,9 +27,8 @@ public class Hexagon {
 	public void drawHexagon(Graphics g, int newXPos, int newYPos){
 		genHexagon(newXPos, newYPos);
 		
-		Color hexColor = Color.BLACK;
-		
-		switch(type){
+		if(hexColor == null){
+			switch(type){
 			case 0:
 				hexColor = colors.genGreenColor();
 				break;
@@ -35,8 +38,9 @@ public class Hexagon {
 			case 2: 
 				hexColor = colors.genYellowColor();
 				break;
-		}// End of switch for type
-
+			}// End of switch for type
+		}// Check if a hex color has been assigned
+		
 		g.setColor(hexColor);
 		g.fillPolygon(hex_XPos, hex_YPos, hex_XPos.length);
 		
@@ -86,16 +90,17 @@ public class Hexagon {
 	}// End of getType
 	
 	public void setType(int newType){
-		type = newType;
+		this.type = newType;
+
 	}// End of setType
 	
 	public void setHexSize(int newSize){
-		hex_width = newSize;
-		hex_height = hex_width + (hex_width / 2);
+		this.hex_width = newSize;
+		this.hex_height = hex_width + (hex_width / 2);
 	}// End of setHexSize
 	
 	public void setHexWidth(int newWidth){
-		hex_width = newWidth;
+		this.hex_width = newWidth;
 	}// End of setHexWidth
 	
 	public int getHexWidth(){
@@ -103,10 +108,18 @@ public class Hexagon {
 	}// End of getHexWidth
 	
 	public void setHexHeight(int newHeight){
-		hex_height = newHeight;
+		this.hex_height = newHeight;
 	}// End of setHexWidth
 	
 	public int getHexHeight(){
 		return hex_height;
 	}// End of getHexWidth
+
+	public Color getHexColor() {
+		return hexColor;
+	}// End of getHexColor
+
+	public void setHexColor(Color hexColor) {
+		this.hexColor = hexColor;
+	}// End of setHexColor
 }// End of class

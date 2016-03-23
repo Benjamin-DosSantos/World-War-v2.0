@@ -12,12 +12,14 @@ public class MapGenerator {
 	int mapWidth = WorldWar.getScreenWidth() / hex.getHexWidth();
 	int mapHeight = WorldWar.getScreenHeight() / hex.getHexHeight();
 	
-	Hexagon map[][] = new Hexagon[mapWidth][mapHeight];
+	Hexagon map[][] = new Hexagon[mapHeight][mapWidth];
+	
+	Random ran = new Random();
 	
 	public void genMap(){
 		for(int c = 0; c < map.length; c++){
 			for(int r = 0; r < map[c].length; r++){
-				int type = selectType();
+				int type = ran.nextInt(3);
 				map[c][r] = new Hexagon();
 				map[c][r].setType(type);
 			}// End of for the number of items
@@ -25,17 +27,21 @@ public class MapGenerator {
 	}// End of genMap method
 
 	public void drawMap(Graphics g, int xPos, int yPos){
-		boolean shift = false;
-		for(int rows = 0; rows < mapHeight; rows++){
-			drawHexRow(g, xPos, yPos);
-			yPos += hex.getHexHeight();
-		}// End of for arrays
+		if(map[0][0] != null){
+			for(int col = 0; col < mapHeight; col++){
+				drawHexRow(g, xPos, yPos, col);
+				yPos += hex.getHexHeight();
+			}// End of for arrays
+		}else{
+			genMap();
+			drawMap(g, yPos, yPos);
+		}//End of if null value
 	}// End of drawMap method
 	
-	public void drawHexRow(Graphics g, int xPos, int yPos){
+	public void drawHexRow(Graphics g, int xPos, int yPos, int cols){
 		boolean drop = false;
-		for(int i = 0; i < mapWidth; i++){
-			hex.drawHexagon(g, xPos, yPos);
+		for(int row = 0; row < mapWidth; row++){
+			map[cols][row].drawHexagon(g, xPos, yPos);
 			xPos += hex.getHexWidth() + (hex.getHexWidth() / 2);
 			if(drop){
 				yPos += hex.getHexHeight() / 2;
@@ -46,9 +52,12 @@ public class MapGenerator {
 			}
 		}// End of for number of hexagons
 	}// End of drawHexRow
-	
-	public int selectType(){
-		Random ran = new Random();
-		return ran.nextInt(3);
-	}// End of selectType
+
+	public Hexagon[][] getMap() {
+		return map;
+	}// end of getMap
+
+	public void setMap(Hexagon[][] map) {
+		this.map = map;
+	}// End of setMap
 }// End of class

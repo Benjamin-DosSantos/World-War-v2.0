@@ -14,5 +14,12 @@ public class WorldPanel extends JPanel{
 	@Override
 	public void paint(Graphics g){
 		mapGen.drawMap(g, -(hex.getHexWidth() / 2), -(hex.getHexHeight() / 2));
+		try {
+			Thread.sleep(1);
+			repaint();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}// End of paint method 
 }// End of class
