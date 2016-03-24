@@ -16,6 +16,8 @@ public class MapGenerator {
 	
 	Random ran = new Random();
 	
+	boolean hasHadCleanPass = false;
+	
 	public void genMap(){
 		for(int c = 0; c < map.length; c++){
 			for(int r = 0; r < map[c].length; r++){
@@ -27,13 +29,14 @@ public class MapGenerator {
 	}// End of genMap method
 
 	public void drawMap(Graphics g, int xPos, int yPos){
-		if(map[0][0] != null){
+		if(map[0][0] != null || hasHadCleanPass != false){
 			for(int col = 0; col < mapHeight; col++){
 				drawHexRow(g, xPos, yPos, col);
 				yPos += hex.getHexHeight();
 			}// End of for arrays
 		}else{
 			genMap();
+			cleanPass(map);
 			drawMap(g, yPos, yPos);
 		}//End of if null value
 	}// End of drawMap method
@@ -53,6 +56,60 @@ public class MapGenerator {
 		}// End of for number of hexagons
 	}// End of drawHexRow
 
+	public Hexagon[][] cleanPass(Hexagon[][] oldMap){
+		Hexagon[][] newMap = new Hexagon[mapHeight][mapWidth];
+		
+		newMap = oldMap.clone();
+		for(int col = 0; col < newMap.length; col++){
+			for(int row = 0; row < newMap[col].length; row++){
+				Hexagon[] currentCell = new Hexagon[8];
+				populateCell(col, row, oldMap, currentCell);
+				boolean containsWater = checkWater(currentCell);
+				if(newMap[col][row].getType() == 0 && containsWater == true){
+					newMap[col][row].setType(1);
+				}// End of class
+			}// End of for rows
+		}// End of for cols
+		
+		return newMap;
+	}// End of cleanPass method
+	
+	private boolean checkWater(Hexagon[] currentCell) {
+		boolean hasWater = false;
+		int waterFound = 0;
+		for(int i = 0; i < currentCell.length; i++){
+			if(currentCell[i].getType() == 1 && waterFound >= 2){
+				return true;
+			}else{
+				waterFound++;
+			}
+		}
+		return hasWater;
+	}
+
+	public void populateCell(int col, int row, Hexagon[][] map, Hexagon[] cellSelection){
+		if((col - 1) >= 0){
+			cellSelection[0] = map[col - 1][row - 1];
+			cellSelection[1] = map[col - 1][row];
+			cellSelection[2] = map[col - 1][row + 1];
+		}
+		
+		if((row + 1) <= mapWidth){
+			cellSelection[3] = map[col][row + 1];
+		}
+		
+		if((col + 1) >= mapWidth){
+			cellSelection[4] = map[col + 1][row + 1];
+			cellSelection[5] = map[col + 1][row];
+			cellSelection[6] = map[col + 1][row - 1];
+			
+		}
+		
+		if((row - 1) >= 0){
+			cellSelection[7] = map[col][row - 1];
+		}
+	}// End of populateCell method
+	
 	public Hexagon[][] getMap() {
 		return map;
 	}// end of getMap
