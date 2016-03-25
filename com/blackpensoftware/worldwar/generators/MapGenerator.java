@@ -16,12 +16,10 @@ public class MapGenerator {
 	
 	Random ran = new Random();
 	
-	boolean hasHadCleanPass = false;
-	
 	public void genMap(){
 		for(int c = 0; c < map.length; c++){
 			for(int r = 0; r < map[c].length; r++){
-				int type = ran.nextInt(3);
+				int type = ran.nextInt(2);  //Generate only green or blue then yellow sand is added after
 				map[c][r] = new Hexagon();
 				map[c][r].setType(type);
 			}// End of for the number of items
@@ -29,7 +27,7 @@ public class MapGenerator {
 	}// End of genMap method
 
 	public void drawMap(Graphics g, int xPos, int yPos){
-		if(map[0][0] != null || hasHadCleanPass != false){
+		if(map[0][0] != null){
 			for(int col = 0; col < mapHeight; col++){
 				drawHexRow(g, xPos, yPos, col);
 				yPos += hex.getHexHeight();
@@ -55,60 +53,58 @@ public class MapGenerator {
 			}
 		}// End of for number of hexagons
 	}// End of drawHexRow
-
-	public Hexagon[][] cleanPass(Hexagon[][] oldMap){
-		Hexagon[][] newMap = new Hexagon[mapHeight][mapWidth];
-		
-		newMap = oldMap.clone();
-		for(int col = 0; col < newMap.length; col++){
-			for(int row = 0; row < newMap[col].length; row++){
-				Hexagon[] currentCell = new Hexagon[8];
-				populateCell(col, row, oldMap, currentCell);
-				boolean containsWater = checkWater(currentCell);
-				if(newMap[col][row].getType() == 0 && containsWater == true){
-					newMap[col][row].setType(1);
-				}// End of class
-			}// End of for rows
-		}// End of for cols
-		
-		return newMap;
-	}// End of cleanPass method
 	
-	private boolean checkWater(Hexagon[] currentCell) {
-		boolean hasWater = false;
-		int waterFound = 0;
-		for(int i = 0; i < currentCell.length; i++){
-			if(currentCell[i].getType() == 1 && waterFound >= 2){
-				return true;
-			}else{
-				waterFound++;
-			}
-		}
-		return hasWater;
-	}
-
-	public void populateCell(int col, int row, Hexagon[][] map, Hexagon[] cellSelection){
-		if((col - 1) >= 0){
-			cellSelection[0] = map[col - 1][row - 1];
-			cellSelection[1] = map[col - 1][row];
-			cellSelection[2] = map[col - 1][row + 1];
-		}
+	public void cleanPass(Hexagon[][] hexMap){
+		// if touching green and touching blue set color to yellow
+		// if touching yellow and blue set to blue
+		// if touching green and yellow set blue
+		// if touching only ColorA set to ColorA
+		// else keep same color
 		
-		if((row + 1) <= mapWidth){
-			cellSelection[3] = map[col][row + 1];
-		}
-		
-		if((col + 1) >= mapWidth){
-			cellSelection[4] = map[col + 1][row + 1];
-			cellSelection[5] = map[col + 1][row];
-			cellSelection[6] = map[col + 1][row - 1];
-			
-		}
-		
-		if((row - 1) >= 0){
-			cellSelection[7] = map[col][row - 1];
-		}
-	}// End of populateCell method
+		for(int col = 0; col < hexMap.length; col++){
+			for(int row = 0; row < hexMap[col].length; row++){
+				int[] types = new int[4]; // Hexagons above, below, to the left and right, of center hex
+				
+				if((col - 1) != -1){
+					types[0] = hexMap[col - 1][row].getType();	// Above
+				}
+				
+				if((col + 1) < mapHeight){
+					types[1] = hexMap[col + 1][row].getType();	// Below
+				}
+				
+				if((row - 1) != -1){
+					types[2] = hexMap[col][row - 1].getType();	// Left
+				}
+				
+				if((row + 1) < mapWidth){
+				
+					types[3] = hexMap[col][row + 1].getType();	// Right
+				}
+				
+				boolean touchingGreen = false;
+				boolean touchingYellow = false;
+				boolean touchingBlue = false;
+				
+				for(int value: types){
+					switch(value){
+						case 0:
+							touchingGreen = true;
+							break;
+						case 1: 
+							touchingBlue = true;
+							break;
+						case 2:
+							touchingYellow = true;
+					}// End of color based on the value of type
+				}// End of for the types
+				
+				if(map[col][row].getType() == 0 && touchingBlue){
+					map[col][row].setType(2);
+				}// End of if blue
+			}// End of for individual cells
+		}// End of for arrays
+	}// End of cleanPass
 	
 	public Hexagon[][] getMap() {
 		return map;
