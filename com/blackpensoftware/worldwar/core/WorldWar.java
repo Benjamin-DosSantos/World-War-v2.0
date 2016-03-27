@@ -7,6 +7,7 @@ import java.awt.Toolkit;
 import javax.swing.JFrame;
 
 import com.blackpensoftware.worldwar.generators.MapGenerator;
+import com.blackpensoftware.worldwar.handlers.SelectionHandler;
 
 public class WorldWar {
 	static String mainFrame_title = "World War v2.0";
@@ -14,6 +15,7 @@ public class WorldWar {
 	
 	static WorldPanel worldPanel = new WorldPanel();
 	static MapGenerator mapGen = new MapGenerator();
+	static SelectionHandler selection = new SelectionHandler();
 	
 	public static void main(String args[]){
 		mapGen.genMap();
@@ -26,6 +28,7 @@ public class WorldWar {
 		mainFrame.setBackground(Color.GRAY);
 		mainFrame.setVisible(true);
 		mainFrame.setSize(getScreenDimension());
+		worldPanel.addMouseListener(selection);
 	}// End of setupPanel
 	
 	public static Dimension getScreenDimension(){

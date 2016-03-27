@@ -63,43 +63,51 @@ public class MapGenerator {
 		
 		for(int col = 0; col < hexMap.length; col++){
 			for(int row = 0; row < hexMap[col].length; row++){
-				int[] types = new int[4]; // Hexagons above, below, to the left and right, of center hex
+				int[] types = new int[6]; // Hexagons above, below, to the left and right, of center hex
 				
 				if((col - 1) != -1){
 					types[0] = hexMap[col - 1][row].getType();	// Above
+					
+					if((row - 1) != -1){
+						types[2] = hexMap[col - 1][row - 1].getType();	// Left top
+					}
+					
+					if((row + 1) < mapWidth){
+						types[5] = hexMap[col - 1][row + 1].getType();
+					}
 				}
 				
 				if((col + 1) < mapHeight){
 					types[1] = hexMap[col + 1][row].getType();	// Below
+					
+					if((row - 1) != -1){
+						types[3] = hexMap[col + 1][row - 1].getType();	// Right top
+					}
+					
+					if((row + 1) < mapWidth){
+						types[4] = hexMap[col + 1][row + 1].getType();
+					}
 				}
 				
-				if((row - 1) != -1){
-					types[2] = hexMap[col][row - 1].getType();	// Left
-				}
-				
-				if((row + 1) < mapWidth){
-				
-					types[3] = hexMap[col][row + 1].getType();	// Right
-				}
-				
-				boolean touchingGreen = false;
-				boolean touchingYellow = false;
-				boolean touchingBlue = false;
+				int touchingGreen = 0;
+				int touchingYellow = 0;
+				int touchingBlue = 0;
 				
 				for(int value: types){
 					switch(value){
 						case 0:
-							touchingGreen = true;
+							touchingGreen++;
 							break;
 						case 1: 
-							touchingBlue = true;
+							touchingBlue++;
 							break;
 						case 2:
-							touchingYellow = true;
+							touchingYellow++;
+							break;
 					}// End of color based on the value of type
 				}// End of for the types
 				
-				if(map[col][row].getType() == 0 && touchingBlue){
+				if(map[col][row].getType() == 0 && touchingBlue >= 3){
 					map[col][row].setType(2);
 				}// End of if blue
 			}// End of for individual cells
