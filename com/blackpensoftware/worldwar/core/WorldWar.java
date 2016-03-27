@@ -14,15 +14,16 @@ public class WorldWar {
 	static JFrame mainFrame= new JFrame(mainFrame_title);
 	
 	static WorldPanel worldPanel = new WorldPanel();
-	static MapGenerator mapGen = new MapGenerator();
+	static MenuPanel menuPanel = new MenuPanel();
+	public static MapGenerator mapGen = new MapGenerator();
 	static SelectionHandler selection = new SelectionHandler();
 	
 	public static void main(String args[]){
 		mapGen.genMap();
-		setupFrame();
+		setupStartMenu();
 	}// End of main Method
 	
-	public static void setupFrame(){
+	public static void setupGameFrame(){
 		mainFrame.add(worldPanel);
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setBackground(Color.GRAY);
@@ -30,6 +31,14 @@ public class WorldWar {
 		mainFrame.setSize(getScreenDimension());
 		worldPanel.addMouseListener(selection);
 	}// End of setupPanel
+	
+	public static void setupStartMenu(){
+		mainFrame.add(menuPanel);
+		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		mainFrame.setBackground(Color.GRAY);
+		mainFrame.setVisible(true);
+		mainFrame.setSize(getScreenDimension());
+	}// End of setupStartMenu Method
 	
 	public static Dimension getScreenDimension(){
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

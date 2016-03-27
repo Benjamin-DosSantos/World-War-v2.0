@@ -35,6 +35,7 @@ public class MapGenerator {
 		}else{
 			genMap();
 			cleanPass(map);
+			//sandPass(map);
 			drawMap(g, yPos, yPos);
 		}//End of if null value
 	}// End of drawMap method
@@ -55,63 +56,42 @@ public class MapGenerator {
 	}// End of drawHexRow
 	
 	public void cleanPass(Hexagon[][] hexMap){
-		// if touching green and touching blue set color to yellow
-		// if touching yellow and blue set to blue
-		// if touching green and yellow set blue
-		// if touching only ColorA set to ColorA
-		// else keep same color
-		
-		for(int col = 0; col < hexMap.length; col++){
-			for(int row = 0; row < hexMap[col].length; row++){
-				int[] types = new int[6]; // Hexagons above, below, to the left and right, of center hex
+		for(int c = 0; c < map.length; c++){
+			for(int r = 0; r < map[c].length; r++){
+				int cell[] = new int[6];	// The six surrounding hexagons around the current hexagon
 				
-				if((col - 1) != -1){
-					types[0] = hexMap[col - 1][row].getType();	// Above
+				if((c - 1) != -1){
+					cell[0] = hexMap[c - 1][r].getType();	// Above
 					
-					if((row - 1) != -1){
-						types[2] = hexMap[col - 1][row - 1].getType();	// Left top
-					}
+					if((r - 1) != -1){
+						cell[2] = hexMap[c - 1][r - 1].getType();	// Left top
+					}// end of if row - 1 is not smaller then the map
 					
-					if((row + 1) < mapWidth){
-						types[5] = hexMap[col - 1][row + 1].getType();
-					}
+					if((r + 1) < mapWidth){
+						cell[5] = hexMap[c - 1][r + 1].getType();	// Left bottom 
+					}// end of if row + 1 is not bigger then the map
+				}// End of if col - 1 is not smaller then 0
+				
+				if((c + 1) < mapHeight){
+					cell[1] = hexMap[c + 1][r].getType();	// Below
+					
+					if((r - 1) != -1){
+						cell[3] = hexMap[c + 1][r - 1].getType();	// Right top
+					}// end of if row - 1 is not smaller then the map
+					
+					if((r + 1) < mapWidth){
+						cell[4] = hexMap[c + 1][r + 1].getType();	// right bottom
+					}// end of if row + 1 is not bigger then the map
+				}// end of if col + 1 is not null
+				int typeSelection = ran.nextInt(cell.length);
+				
+				if(cell[typeSelection] >= 0){
+					map[c][r].setType(cell[typeSelection]);
+				}else{
+					map[c][r].setType(0);
 				}
-				
-				if((col + 1) < mapHeight){
-					types[1] = hexMap[col + 1][row].getType();	// Below
-					
-					if((row - 1) != -1){
-						types[3] = hexMap[col + 1][row - 1].getType();	// Right top
-					}
-					
-					if((row + 1) < mapWidth){
-						types[4] = hexMap[col + 1][row + 1].getType();
-					}
-				}
-				
-				int touchingGreen = 0;
-				int touchingYellow = 0;
-				int touchingBlue = 0;
-				
-				for(int value: types){
-					switch(value){
-						case 0:
-							touchingGreen++;
-							break;
-						case 1: 
-							touchingBlue++;
-							break;
-						case 2:
-							touchingYellow++;
-							break;
-					}// End of color based on the value of type
-				}// End of for the types
-				
-				if(map[col][row].getType() == 0 && touchingBlue >= 3){
-					map[col][row].setType(2);
-				}// End of if blue
-			}// End of for individual cells
-		}// End of for arrays
+			}// End of For rows in a column
+		}// End of for columns in the map
 	}// End of cleanPass
 	
 	public Hexagon[][] getMap() {

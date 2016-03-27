@@ -9,7 +9,7 @@ import com.blackpensoftware.worldwar.primitives.Hexagon;
 
 public class WorldPanel extends JPanel{
 	Hexagon hex = new Hexagon();
-	MapGenerator mapGen = new MapGenerator(); 
+	public static MapGenerator mapGen = new MapGenerator(); 
 	
 	@Override
 	public void paint(Graphics g){
