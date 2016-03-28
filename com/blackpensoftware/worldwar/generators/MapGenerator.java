@@ -19,7 +19,7 @@ public class MapGenerator {
 	public void genMap(){
 		for(int c = 0; c < map.length; c++){
 			for(int r = 0; r < map[c].length; r++){
-				int type = ran.nextInt(2);  //Generate only green or blue then yellow sand is added after
+				int type = ran.nextInt(3);  //Generate only green or blue then yellow sand is added after
 				map[c][r] = new Hexagon();
 				map[c][r].setType(type);
 			}// End of for the number of items
@@ -65,6 +65,7 @@ public class MapGenerator {
 					
 					if((r - 1) != -1){
 						cell[2] = hexMap[c - 1][r - 1].getType();	// Left top
+						setZLevel(c, r);
 					}// end of if row - 1 is not smaller then the map
 					
 					if((r + 1) < mapWidth){
@@ -77,6 +78,7 @@ public class MapGenerator {
 					
 					if((r - 1) != -1){
 						cell[3] = hexMap[c + 1][r - 1].getType();	// Right top
+						setZLevel(c, r);
 					}// end of if row - 1 is not smaller then the map
 					
 					if((r + 1) < mapWidth){
@@ -94,6 +96,22 @@ public class MapGenerator {
 		}// End of for columns in the map
 	}// End of cleanPass
 	
+	private void setZLevel(int col, int row) {
+		int change = ran.nextInt(3); // 0 = go down, 1 = stay the same, 2 = go up
+		
+		switch(change){
+			case 0:
+				map[col][row].setzLevel(map[col][row - 1].getzLevel() - hex.getzOffset());
+				break;
+			case 1:
+				map[col][row].setzLevel(map[col][row - 1].getzLevel());
+				break;
+			case 2:
+				map[col][row].setzLevel(map[col][row - 1].getzLevel() + hex.getzOffset());
+				break;
+		}
+	}// End of setZLevel method
+
 	public Hexagon[][] getMap() {
 		return map;
 	}// end of getMap

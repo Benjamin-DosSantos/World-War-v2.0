@@ -16,6 +16,11 @@ public class Hexagon {
 	// 2 = sand
 	int type = 0;
 	
+	int zLevel = 0;	// the offset of color to show a difference in height
+	int zOffset = 15;
+	int zMin = 70;
+	int zMax = 225;
+	
 	Color hexColor;
 	
 	int hex_width = 10;
@@ -30,13 +35,13 @@ public class Hexagon {
 		if(hexColor == null){
 			switch(type){
 			case 0:
-				hexColor = colors.genGreenColor();
+				hexColor = colors.genGreenColor(this, zLevel);
 				break;
 			case 1:
-				hexColor = colors.genBlueColor();
+				hexColor = colors.genBlueColor(this, zLevel);
 				break;
 			case 2: 
-				hexColor = colors.genYellowColor();
+				hexColor = colors.genYellowColor(this, zLevel);
 				break;
 			}// End of switch for type
 		}// Check if a hex color has been assigned
@@ -122,4 +127,36 @@ public class Hexagon {
 	public void setHexColor(Color hexColor) {
 		this.hexColor = hexColor;
 	}// End of setHexColor
+
+	public int getzLevel() {
+		return zLevel;
+	}// End of getzLevel
+
+	public void setzLevel(int zLevel) {
+		this.zLevel = zLevel;
+	}// End of setzLevel
+
+	public int getzOffset() {
+		return zOffset;
+	}// End of getzOffset
+
+	public void setzOffset(int zOffset) {
+		this.zOffset = zOffset;
+	}// End of setzOffset
+
+	public int getzMin() {
+		return zMin;
+	}
+
+	public void setzMin(int zMin) {
+		this.zMin = zMin;
+	}
+
+	public int getzMax() {
+		return zMax;
+	}
+
+	public void setzMax(int zMax) {
+		this.zMax = zMax;
+	}
 }// End of class

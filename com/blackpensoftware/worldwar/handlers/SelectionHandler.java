@@ -21,8 +21,8 @@ public class SelectionHandler implements MouseListener, MouseWheelListener{
 	public void mouseClicked(MouseEvent event) {
 		Hexagon[][] liveMap = map;
 		
-		int hexXValue = (event.getX() / hex.getHexWidth());    
-		int hexYValue = (event.getY() / hex.getHexHeight());
+		int hexXValue = (int) Math.floor(event.getX() / hex.getHexWidth());    
+		int hexYValue = (int) Math.floor(event.getY() / hex.getHexHeight());
 		
 		//System.out.println(hexYValue + ", " + hexXValue);
 		
