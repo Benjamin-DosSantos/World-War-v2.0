@@ -29,6 +29,7 @@ public class WorldWar {
 		mainFrame.setBackground(Color.GRAY);
 		mainFrame.setVisible(true);
 		mainFrame.setSize(getScreenDimension());
+		mainFrame.setLocation(0, 0);
 		worldPanel.addMouseListener(selection);
 	}// End of setupPanel
 	
@@ -37,12 +38,23 @@ public class WorldWar {
 		mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		mainFrame.setBackground(Color.GRAY);
 		mainFrame.setVisible(true);
-		mainFrame.setSize(getScreenDimension());
+		mainFrame.setSize(getScreenSmaller());
+		mainFrame.setLocation(getScreenWidth() / 4, getScreenHeight() / 4);
 	}// End of setupStartMenu Method
 	
 	public static Dimension getScreenDimension(){
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		return screenSize;
+	}// End of getScreenDimension
+	
+	public static Dimension getScreenSmaller(){
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int screenWidth = (int) screenSize.getWidth();
+		int screenHeight = (int) screenSize.getHeight();
+		
+		Dimension smallScreen = new Dimension(screenWidth / 2, screenHeight / 2);
+		
+		return smallScreen;
 	}// End of getScreenDimension
 	
 	public static int getScreenWidth(){
