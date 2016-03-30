@@ -23,40 +23,23 @@ public class SelectionHandler implements MouseListener, MouseWheelListener{
 		
 		int hexXValue = (int) Math.floor(event.getX() / hex.getHexWidth());    
 		int hexYValue = (int) Math.floor(event.getY() / hex.getHexHeight());
-		
-		//System.out.println(hexYValue + ", " + hexXValue);
-		
-		//System.out.println(liveMap[hexYValue][hexXValue].getType());
+
 		liveMap[hexYValue][hexXValue].setHexColor(Color.magenta);
 		
 	}
  
 	@Override
-	public void mouseEntered(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseEntered(MouseEvent event) {}
 
 	@Override
-	public void mouseExited(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseExited(MouseEvent event) {}
 
 	@Override
-	public void mousePressed(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mousePressed(MouseEvent event) {}
 
 	@Override
-	public void mouseReleased(MouseEvent event) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void mouseReleased(MouseEvent event) {}
 
 	@Override
-	public void mouseWheelMoved(MouseWheelEvent event) {
-		
-	}// End of mouseWheelMoved Method
+	public void mouseWheelMoved(MouseWheelEvent event) {}// End of mouseWheelMoved Method
 }// End of class
