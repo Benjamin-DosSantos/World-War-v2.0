@@ -20,25 +20,24 @@ public class SelectionHandler implements MouseListener, MouseWheelListener{
 	@Override
 	public void mouseClicked(MouseEvent event) {
 		Hexagon[][] liveMap = map;
-		
 		int hexXValue = (int) Math.floor(event.getX() / hex.getHexWidth());    
 		int hexYValue = (int) Math.floor(event.getY() / hex.getHexHeight());
 
 		liveMap[hexYValue][hexXValue].setHexColor(Color.magenta);
 		
-	}
+	}// End of mouse Clicked
  
 	@Override
-	public void mouseEntered(MouseEvent event) {}
+	public void mouseEntered(MouseEvent event) {}// End Of mouseEntered
 
 	@Override
-	public void mouseExited(MouseEvent event) {}
+	public void mouseExited(MouseEvent event) {}// End Of mouseExited
 
 	@Override
-	public void mousePressed(MouseEvent event) {}
+	public void mousePressed(MouseEvent event) {}// End Of mousePressed
 
 	@Override
-	public void mouseReleased(MouseEvent event) {}
+	public void mouseReleased(MouseEvent event) {}// End Of mouseReleased
 
 	@Override
 	public void mouseWheelMoved(MouseWheelEvent event) {}// End of mouseWheelMoved Method
